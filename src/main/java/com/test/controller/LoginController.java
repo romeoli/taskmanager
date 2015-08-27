@@ -4,6 +4,7 @@ import com.test.entity.User;
 import com.test.service.UnitService;
 import com.test.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,9 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ShaPasswordEncoder shaPasswordEncoder;
+
     @RequestMapping("/login")
     public String login(Model model) {
         return "login";
@@ -34,7 +38,9 @@ public class LoginController {
     public ModelAndView addUser(@RequestParam(value = "unit") int id,
                                 @RequestParam(value = "name") String name,
                                 @RequestParam(value = "pass") String pass) {
-        User user = new User(name, pass, unitService.getUnitById(id));
+
+
+        User user = new User(name, shaPasswordEncoder.encodePassword(pass, null), unitService.getUnitById(id));
         userService.addUser(user);
 
         return new ModelAndView("login");

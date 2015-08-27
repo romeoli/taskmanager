@@ -3,6 +3,7 @@ package com.test.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -27,5 +28,10 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         resolver.setViewClass(JstlView.class);
         resolver.setOrder(1);
         return resolver;
+    }
+
+    @Bean
+    public ShaPasswordEncoder getShaPasswordEncoder() {
+        return new ShaPasswordEncoder();
     }
 }
